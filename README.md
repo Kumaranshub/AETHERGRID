@@ -1,10 +1,4 @@
-#OLI — FEDERATED DATA INTELLIGENCE & AI-POWERED ANALYTICS PLATFORM
-
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.110+-009688?logo=fastapi)](https://fastapi.tiangolo.com)
-[![Python](https://img.shields.io/badge/Python-3.11+-3776AB?logo=python)](https://python.org)
-[![DuckDB](https://img.shields.io/badge/DuckDB-0.10+-FFF000?logo=duckdb)](https://duckdb.org)
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app)
+# OLI — FEDERATED DATA INTELLIGENCE & AI-POWERED ANALYTICS PLATFORM
 
 ---
 
@@ -12,12 +6,12 @@
 
 ```mermaid
 flowchart TB
-    subgraph CLIENT["🖥️ Client Layer"]
+    subgraph CLIENT["Client Layer"]
         UI["Streamlit / React UI\n(Drag-drop, NL input)"]
         EMBED["Embedded SDK\n(iframe + JWT)"]
     end
 
-    subgraph API["⚡ API Layer — FastAPI"]
+    subgraph API["API Layer — FastAPI"]
         NLQ["NL Query Engine\n/api/nl-query"]
         VIZ["Viz Generator\n/api/generate-chart"]
         ML["ML Pipeline\n/api/forecast"]
@@ -25,14 +19,14 @@ flowchart TB
         WS["WebSocket\n/ws/collab"]
     end
 
-    subgraph BRAIN["🧠 AI/ML Core"]
+    subgraph BRAIN["AI/ML Core"]
         LC["LangChain\nSQL Chain"]
         HF["HuggingFace\ntext2sql / NER"]
         SKL["scikit-learn\nAutoML Forecaster"]
         OCT["GNU Octave Bridge\nMatrix / DSP ops"]
     end
 
-    subgraph DATA["🗄️ Data Layer — Federated (No ETL)"]
+    subgraph DATA["Data Layer — Federated (No ETL)"]
         DUCK["DuckDB\n(In-process OLAP)"]
         POL["Polars\n(Lazy DataFrames)"]
         VDB["ChromaDB\n(Vector Store)"]
@@ -45,7 +39,7 @@ flowchart TB
         end
     end
 
-    subgraph INFRA["☁️ Serverless Infra"]
+    subgraph INFRA["Serverless Infra"]
         VERCEL["Vercel\n(Frontend CDN)"]
         RAILWAY["Railway\n(FastAPI + DB)"]
         REDIS["Redis\n(Cache + Pub/Sub)"]
@@ -62,9 +56,10 @@ flowchart TB
     VDB --> LC
 ```
 
+
 ---
 
-## 🆓 Free Stack
+##  Free Stack
 
 | Layer | Tool | Why |
 |---|---|---|
@@ -82,7 +77,7 @@ flowchart TB
 
 ---
 
-## 🏗️ Project Structure
+## Project Structure
 
 ```
 oli/
@@ -124,7 +119,7 @@ oli/
 
 ---
 
-## 🚀 Code Skeleton 1 — FastAPI: NL Query → SQL + AI Insight
+## Code Skeleton 1 — FastAPI: NL Query → SQL + AI Insight
 
 ```python
 # backend/routers/nl_query.py
@@ -213,7 +208,7 @@ def _suggest_chart(df) -> str:
 
 ---
 
-## 🖥️ Code Skeleton 2 — Streamlit Dashboard: Drag-Drop + Auto-Charts
+## Code Skeleton 2 — Streamlit Dashboard: Drag-Drop + Auto-Charts
 
 ```python
 # frontend/app.py
@@ -222,11 +217,11 @@ import plotly.express as px
 import pandas as pd
 import requests
 
-st.set_page_config(page_title="OLI", page_icon="⚡", layout="wide")
+st.set_page_config(page_title="OLI", page_icon="", layout="wide")
 API_BASE = "http://localhost:8000/api"
 
 with st.sidebar:
-    st.markdown("# ⚡ OLI")
+    st.markdown("#  OLI")
     st.caption("ஒளி · Light · Intelligence")
     st.markdown("---")
     uploaded = st.file_uploader("Upload file", type=["parquet", "csv"])
@@ -234,9 +229,9 @@ with st.sidebar:
     if uploaded:
         with open(data_source, "wb") as f:
             f.write(uploaded.read())
-    plan = st.radio("Plan", ["🆓 Free (≤10 users)", "💎 Pro — $29/mo"])
+    plan = st.radio("Plan", ["Free (≤10 users)", " Pro — $29/mo"])
 
-st.title("⚡ OLI — Federated Data Intelligence")
+st.title("OLI — Federated Data Intelligence")
 st.caption("ஒளி · Ask your data anything, in plain English.")
 
 col1, col2 = st.columns([3, 1])
@@ -247,7 +242,7 @@ with col2:
     run_query = st.button("🔍 Ask AI", use_container_width=True, type="primary")
 
 if run_query and question:
-    with st.spinner("🧠 OLI is thinking..."):
+    with st.spinner("OLI is thinking..."):
         try:
             res = requests.post(f"{API_BASE}/nl-query",
                                 json={"question": question, "data_source": data_source,
@@ -259,7 +254,7 @@ if run_query and question:
 
     if data:
         df = pd.DataFrame(data["results"])
-        st.info(f"💡 **OLI Insight:** {data['insight']}")
+        st.info(f" **OLI Insight:** {data['insight']}")
         m1, m2, m3 = st.columns(3)
         m1.metric("Rows", f"{data['row_count']:,}")
         m2.metric("Chart", data["chart_type"].upper())
@@ -285,7 +280,7 @@ if run_query and question:
 
 ---
 
-## 📈 Code Skeleton 3 — Octave/Python Time Series Forecaster
+## Code Skeleton 3 — Octave/Python Time Series Forecaster
 
 ```python
 # ml/forecaster.py
@@ -374,94 +369,9 @@ class OliForecaster:
         }
 ```
 
----
-
-## 💰 Monetization
-
-```
-Free  ──────────────────────────────────────────────────
-  • ≤ 10 users · 5 dashboards · 3 data sources
-  • 100 NL queries/month · OLI branding on embeds
-  • $0/mo (Vercel + Railway free tiers)
-
-Pro — $29/mo flat  ─────────────────────────────────────
-  • Unlimited users, dashboards, sources, queries
-  • Real-time WebSocket co-authoring
-  • White-label embeds + custom domain
-  • 30-day version history
-  • Infra ~$7/mo → ~$22 margin per workspace
-
-Enterprise — Custom  ────────────────────────────────────
-  • Self-hosted Docker / Helm · SSO · SOC 2
-  • Dedicated ML compute · SLA · From $499/mo
-```
-
----
-
-## 🗓️ Week 1–4 Roadmap
-
-```
-Week 1 — Foundation (5h)     Local prototype running
-  [ ] Install deps + GNU Octave
-  [ ] DuckDB against sample dataset
-  [ ] FastAPI /health + NL query endpoint
-
-Week 2 — AI & ML Core (6h)   Forecasting demo live
-  [ ] Octave FFT + SARIMA grid search
-  [ ] ChromaDB schema embeddings
-  [ ] Auto-prep: nulls, type inference, dedup
-
-Week 3 — Collab + Embed (5h) Sharable demo URL
-  [ ] WebSocket real-time co-authoring
-  [ ] JWT multi-tenant auth
-  [ ] sdk.js embed · Railway + Vercel deploy
-
-Week 4 — Launch (4h)         Public beta
-  [ ] Stripe Pro tier ($29/mo)
-  [ ] Landing page · demo GIF
-  [ ] HN "Show HN" · Product Hunt
-
-Total: ~20h  |  Cost: $0  |  Revenue day 1: Stripe live
-```
-
----
-
-## ⚙️ Quick Start
-
-```bash
-git clone https://github.com/your-org/oli.git && cd oli
-pip install -r requirements.txt
-sudo apt install octave            # Ubuntu · brew install octave on macOS
-uvicorn backend.main:app --reload --port 8000
-streamlit run frontend/app.py
-# → http://localhost:8501
-```
-
-```
-# requirements.txt
-fastapi==0.110.0          uvicorn[standard]==0.29.0
-duckdb==0.10.2            polars==0.20.18
-langchain==0.1.16         langchain-community==0.0.36
-langchain-huggingface==0.0.3  transformers==4.40.1
-chromadb==0.4.24          statsmodels==0.14.2
-scikit-learn==1.4.2       oct2py==5.6.0
-streamlit==1.33.0         plotly==5.21.0
-pandas==2.2.2             python-jose[cryptography]==3.3.0
-passlib[bcrypt]==1.7.4    redis==5.0.4
-pydantic==2.7.1
-```
-
----
-
 ## 📄 License
 
 MIT — free to use, modify, self-host.
 White-label embedding requires a Pro or Enterprise license.
 
 ---
-
-<p align="center">
-  <b>⚡ OLI · ஒளி · Light</b><br/>
-  Built for those tired of DAX hell and Tableau sprawl.<br/>
-  <a href="https://oli.io">oli.io</a> · <a href="https://docs.oli.io">Docs</a> · <a href="https://discord.gg/oli">Discord</a>
-</p>
