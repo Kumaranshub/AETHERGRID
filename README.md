@@ -64,7 +64,7 @@ Both devices must be connected to the **same WiFi or LAN network**.
                     Local Network
                          │
                  ┌───────┴────────┐
-                 │                 
+              
 
           ┌───────────────┐
           │  RASPBERRY PI │
